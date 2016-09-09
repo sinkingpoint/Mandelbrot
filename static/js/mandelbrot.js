@@ -101,7 +101,7 @@
                   let startY = r2[i * blockSize];
                   let endX = r1[(r + 1) * blockSize];
                   let endY = r2[(i + 1) * blockSize];
-                  let result = $.getJSON('http://localhost:5000/mandelbrot/' + startX + '/' + endX + '/' + startY + '/' + endY + '/' + blockSize + '/' + blockSize + '/' + maxIterations);
+                  let result = $.getJSON('http://' + window.location.host + '/mandelbrot/' + startX + '/' + endX + '/' + startY + '/' + endY + '/' + blockSize + '/' + blockSize + '/' + maxIterations);
                   result.then(getSetPixelFunction(r * blockSize, i * blockSize, blockSize, blockSize, maxIterations));
                 }, i * innerDelay);
               })(i);
