@@ -28,13 +28,17 @@
               <input type="number" name="blockSize" id="blockSize" value="30"><br>
               <label for="maxIterations">Max Iterations</label><br>
               <input type="number" name="maxIterations" id="maxIterations" value="128"><br>
+              <input type="color" name="startColour" id="startColour" value="#000000">
+              <input type="color" name="endColour" id="endColour" value="#FFFFFF">
               <input type="submit" name="submit" value="Run">
           </form>
         </div>
         <div>
+          <button id="full">Full</button>
           <button id="elephants">Elephants</button>
+          <button id="tendrils">Tendrils</button>
         </div>
-        <script type='text/javascript' src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
+        <script type='text/javascript' src='js/jquery-3.1.0.min.js'></script>
         <script type='text/javascript' src='js/mandelbrot.js'></script>
     </body>
 </html>
