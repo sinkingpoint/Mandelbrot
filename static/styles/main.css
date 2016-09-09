@@ -1,0 +1,13 @@
+#canvas{
+  float: left;
+  background-color: #000;
+  margin-right: 3em;
+}
+
+#input{
+  margin-left: 3em;
+}
+
+#input > form > input{
+  margin-bottom: 1em;
+}

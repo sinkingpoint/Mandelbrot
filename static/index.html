@@ -3,11 +3,38 @@
 <html>
     <head>
         <title>Mandelbrot</title>
+        <link rel="stylesheet" href="styles/main.css" />
     </head>
 
     <body>
-        <canvas id="mandelbrot" width="150" height="150"></canvas>
+        <div id="canvas">
+          <canvas id="mandelbrot" width="500" height="500"></canvas>
+        </div>
+        <div id="input">
+          <form id="variables">
+              <label for="xmin">X Min</label><br>
+              <input type="number" name="xmin" id="xmin" step="any"><br>
+              <label for="xmax">X Max</label><br>
+              <input type="number" name="xmax" id="xmax" step="any"><br>
+              <label for="ymin">Y Min</label><br>
+              <input type="number" name="ymin" id="ymin" step="any"><br>
+              <label for="ymax">Y Max</label><br>
+              <input type="number" name="ymax" id="ymax" step="any"><br>
+              <label for="width">Width</label><br>
+              <input type="number" name="width" id="width" value="500"><br>
+              <label for="height">Height</label><br>
+              <input type="number" name="height" id="height" value="500"><br>
+              <label for="blockSize">Block Size</label><br>
+              <input type="number" name="blockSize" id="blockSize" value="30"><br>
+              <label for="maxIterations">Max Iterations</label><br>
+              <input type="number" name="maxIterations" id="maxIterations" value="128"><br>
+              <input type="submit" name="submit" value="Run">
+          </form>
+        </div>
+        <div>
+          <button id="elephants">Elephants</button>
+        </div>
         <script type='text/javascript' src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
-        <script type='text/javascript' src='/js/mandelbrot.js'></script>
+        <script type='text/javascript' src='js/mandelbrot.js'></script>
     </body>
 </html>
