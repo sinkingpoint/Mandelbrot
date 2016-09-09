@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from flask import Flask, send_from_directory
+import json
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -20,8 +21,17 @@ def get_css(path):
 def ping():
     return 'PING', 200
 
-@app.route('/mandelbrot/<xmin>/<ymin>/<xmax>/<ymax>/<w>/<h>/<iterations>')
-def mandelbrot(xmin, ymin, xmax, ymax, w, h, iterations):
+def mandelbrot_pixel(r, i, iterations):
+    z = complex(r, i)
+    c = z
+    for n in range(iterations):
+        if abs(z) > 2:
+            return n
+        z = z*z + c
+    return iterations
+
+@app.route('/mandelbrot/<xmin>/<xmax>/<ymin>/<ymax>/<w>/<h>/<iterations>')
+def mandelbrot(xmin, xmax, ymin, ymax, w, h, iterations):
     try:
         xmin, ymin, xmax, ymax, w, h, iterations = float(xmin), float(ymin), float(xmax), float(ymax), int(w), int(h), int(iterations)
     except ValueError, e:
@@ -32,18 +42,15 @@ def mandelbrot(xmin, ymin, xmax, ymax, w, h, iterations):
     r2 = np.linspace(ymin, ymax, h)
     for r in r1:
         for i in r2:
-            z = complex(r, i)
-            c = z
-            found = False
-            for n in range(iterations):
-                if abs(z) > 2:
-                    return_val.append(n)
-                    found = True
-                    break
-                z = z*z + c
-            if not found:
-                return_val.append(iterations)
+            return_val.append(mandelbrot_pixel(r, i, iterations))
+    assert len(return_val) == w * h
     return '{"iterations":' + str(return_val) + '}'
 
+def draw(xmin, xmax, ymin, ymax, width, height, max_iterations):
+    colors = mandelbrot(xmin, xmax, ymin, ymax, width, height, max_iterations)
+    result = json.loads(colors)['iterations']
+    plt.imshow(np.reshape(np.array(result), (width, height)))
+    plt.show()
+
 if __name__ == '__main__':
-    app.run(debug=True, threaded=True)
+    app.run(threaded=True)

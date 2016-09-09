@@ -8,6 +8,7 @@
             result[i] = min + i * inc
         }
 
+        result.push(max)
         return result
     }
 
@@ -31,8 +32,8 @@
 
         document.getElementById('variables').onsubmit = function(){
           let xmin = Number(document.getElementById('xmin').value);
-          let ymin = Number(document.getElementById('xmax').value);
-          let xmax = Number(document.getElementById('ymin').value);
+          let ymin = Number(document.getElementById('ymin').value);
+          let xmax = Number(document.getElementById('xmax').value);
           let ymax = Number(document.getElementById('ymax').value);
           let width = Number(document.getElementById('width').value);
           let height = Number(document.getElementById('height').value);
@@ -43,7 +44,7 @@
         }
 
         document.getElementById('elephants').onclick = function(){
-            setParameters(0.275, 0.3, 0, 0.025);
+            setParameters(-2, 0.5, -1.25, 1.25);
         }
     }
 
@@ -63,15 +64,12 @@
     }
 
     function run(xMin, xMax, yMin, yMax, width, height, blockSize, maxIterations){
-        let r1 = linspace(xMin, xMax, width)
-        let r2 = linspace(yMin, yMax, height)
-        const incX = (xMax - xMin) / width;
-        const incY = (yMax - yMin) / width;
+        let r1 = linspace(xMin, xMax, width);
+        let r2 = linspace(yMin, yMax, height);
+        const numXBlocks = Math.floor(width / blockSize);
+        const numYBlocks = Math.floor(height / blockSize);
+
         const innerDelay = 50;
-        const blockXSize = blockSize;
-        const blockYSize = blockSize;
-        const numXBlocks = Math.floor(width / blockXSize);
-        const numYBlocks = Math.floor(height / blockYSize);
         const outerDelay = innerDelay * numYBlocks * 0.5;
 
         for(let r = 0;r < numXBlocks;r ++){
@@ -80,8 +78,12 @@
                     for(let i = 0;i < numYBlocks;i ++){
                         (function(i){
                             window.setTimeout(function(){
-                                let result = $.getJSON('http://localhost:5000/mandelbrot/' + r1[r * blockXSize] + '/' + r2[i * blockYSize] + '/' + r1[(r + 1) * blockXSize - 1] + '/' + r2[(i + 1) * blockXSize-1] + '/' + blockXSize + '/' + blockYSize + '/' + maxIterations);
-                                result.then(getSetPixelFunction(r * blockXSize, i * blockYSize, blockXSize, blockYSize, maxIterations));
+                              let startX = r1[r * blockSize];
+                              let startY = r2[i * blockSize];
+                              let endX = r1[(r + 1) * blockSize];
+                              let endY = r2[(i + 1) * blockSize];
+                              let result = $.getJSON('http://localhost:5000/mandelbrot/' + startX + '/' + endX + '/' + startY + '/' + endY + '/' + blockSize + '/' + blockSize + '/' + maxIterations);
+                              result.then(getSetPixelFunction(r * blockSize, i * blockSize, blockSize, blockSize, maxIterations));
                             }, i * innerDelay);
                         })(i);
                     }
