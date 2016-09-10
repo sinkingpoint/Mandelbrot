@@ -1,7 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from flask import Flask, send_from_directory
-import json
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -46,11 +44,5 @@ def mandelbrot(xmin, xmax, ymin, ymax, w, h, iterations):
     assert len(return_val) == w * h
     return '{"iterations":' + str(return_val) + '}'
 
-def draw(xmin, xmax, ymin, ymax, width, height, max_iterations):
-    colors = mandelbrot(xmin, xmax, ymin, ymax, width, height, max_iterations)
-    result = json.loads(colors)['iterations']
-    plt.imshow(np.reshape(np.array(result), (width, height)))
-    plt.show()
-
 if __name__ == '__main__':
-    app.run(threaded=True)
+    app.run(port=80, host='0.0.0.0', threaded=True)
