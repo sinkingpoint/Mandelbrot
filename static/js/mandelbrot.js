@@ -46,7 +46,8 @@
       let jumps = {
         full: [-2, 0.5, -1.25, 1.25],
         elephants: [0.275, 0.3, 0.001, 0.02],
-        tendrils: [-0.235625, -0.234625, 0.826715, 0.827715]
+        tendrils: [-0.235625, -0.234625, 0.826715, 0.827715],
+        squiggle: [-1.25084, -1.25050, 0.01995, 0.02012]
       };
 
       for(let divName in jumps){
@@ -71,7 +72,7 @@
         let endRGB = getRGB('endColour');
         for(let deltaX = 0;deltaX < blockWidth;deltaX ++){
             for(let deltaY = 0;deltaY < blockHeight;deltaY ++){
-                let colourPCent = (data.iterations[deltaX * blockWidth + deltaY] / maxIterations);
+                let colourPCent = 1 - (data.iterations[deltaX * blockWidth + deltaY] / maxIterations);
                 mandelbrot.pixelData[0] = startRGB[0] * colourPCent + (1 - colourPCent) * endRGB[0]
                 mandelbrot.pixelData[1] = startRGB[1] * colourPCent + (1 - colourPCent) * endRGB[1]
                 mandelbrot.pixelData[2] = startRGB[2] * colourPCent + (1 - colourPCent) * endRGB[2]
